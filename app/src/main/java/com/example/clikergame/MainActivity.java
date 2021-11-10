@@ -3,12 +3,15 @@ package com.example.clikergame;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     //initialisation des objets
@@ -35,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
     //piece
     int piece = 0;
 
+    //id_pokemon
+    TypedArray img_pokemon;
+    int min = 1;
+    int max = 898;
+    String id_pokemon = "_";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +81,19 @@ public class MainActivity extends AppCompatActivity {
                 //affichage des résultats
                     t_result.setText("Bravo");
                     t_result.setVisibility(View.VISIBLE);
+
+
+
+                    img_pokemon = getResources().obtainTypedArray(R.array.img_pokemon);
+                    Random random = new Random();
+
+                    int value = random.nextInt(img_pokemon.length());
+                    int resID = img_pokemon.getResourceId(value,0);
+                    //TODO id_pokemon
+                    id_pokemon= id_pokemon + value ;
+                    b_click.setImageResource(resID);
+                    b_click.setTag(resID);
+
                     niveau++;
                     if (clicks>record){
                         record = clicks;
