@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     //affichage du record
     int record = 0;
 
+    //piece
+    int piece = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
