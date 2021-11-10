@@ -23,7 +23,7 @@
         android:id="@+id/t_restant"
         android:layout_width="202dp"
         android:layout_height="40dp"
-        android:text="Réalisé : 15"
+        android:text="Réalisé : 0"
         android:textAlignment="center"
         android:textSize="32dp"
         app:layout_constraintBottom_toTopOf="@+id/b_clic"
@@ -88,6 +88,22 @@
         android:textAlignment="center"
         android:textSize="30dp"
         app:layout_constraintBottom_toTopOf="@+id/t_clicks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/t_time" />
+
+    <TextView
+        android:id="@+id/t_record"
+        android:layout_width="202dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="98dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="102dp"
+        android:layout_marginBottom="18dp"
+        android:text="Record : 0"
+        android:textAlignment="center"
+        android:textSize="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/t_result"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/t_time" />

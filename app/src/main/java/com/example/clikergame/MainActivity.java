@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     //initialisation des objets
-    TextView t_time,t_restant,t_clicks,t_result;
+    TextView t_time,t_restant,t_clicks,t_result,t_record;
     ImageButton b_click;
     Button b_start;
 
@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     //nb clicks necessaire par niveau
     int c_niveau = 15;
 
+    //affichage du record
+    int record = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         b_start = (Button) findViewById(R.id.b_start);
         t_clicks = (TextView) findViewById(R.id.t_clicks);
         t_result = (TextView) findViewById(R.id.t_result);
+        t_record = (TextView) findViewById(R.id.t_record);
+
         b_start.setEnabled(true);
         b_click.setEnabled(false);
 
@@ -66,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
                     t_result.setText("Bravo");
                     t_result.setVisibility(View.VISIBLE);
                     niveau++;
+                    if (clicks>record){
+                        record = clicks;
+                        t_record.setText("Reccord : " + record);
+                    }
                     if(niveau == 5){
                         niveau = 1;
                     }
