@@ -4,19 +4,33 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.res.TypedArray;
+import android.media.AsyncPlayer;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     //initialisation des objets
     TextView t_time,t_restant,t_clicks,t_result,t_record;
     ImageButton b_click;
+    public final String filename="scores.xml";
     Button b_start;
 
     //Timer
@@ -44,12 +58,19 @@ public class MainActivity extends AppCompatActivity {
     int max = 898;
     String id_pokemon = "_";
 
+    //musik
+    private MediaPlayer mediaPlayer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //instanciation des objets
+        if(!createNewFile()){
+            readAncientRecord();
+        }
         t_time = (TextView) findViewById(R.id.t_time);
         t_restant = (TextView) findViewById(R.id.t_restant);
         b_click = (ImageButton) findViewById(R.id.b_clic);
@@ -57,10 +78,12 @@ public class MainActivity extends AppCompatActivity {
         t_clicks = (TextView) findViewById(R.id.t_clicks);
         t_result = (TextView) findViewById(R.id.t_result);
         t_record = (TextView) findViewById(R.id.t_record);
-
+        t_record.setText("Record : " + record);
+        this.mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.poke_chill);
         b_start.setEnabled(true);
         b_click.setEnabled(false);
 
+        mediaPlayer.start();
 
 
 
@@ -97,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
                     niveau++;
                     if (clicks>record){
                         record = clicks;
-                        t_record.setText("Reccord : " + record);
+                        saveFile();
+                        t_record.setText("Record : " + record);
                     }
                     if(niveau == 5){
                         niveau = 1;
@@ -179,4 +203,55 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private boolean createNewFile() {
+        File file = new File(getApplicationContext().getCacheDir(), filename);
+        if(!file.exists()) {
+            try {
+                file.createNewFile();
+                Log.e("test","File didn't exist, so I created it !");
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    private void saveFile() {
+        try {
+            Gson gson = new Gson();
+            String json = gson.toJson(record);
+            Log.e("json",json);
+            write(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void write(String json) throws IOException{
+        File file = new File(getApplicationContext().getCacheDir(), filename);
+        FileWriter fw = new FileWriter(file.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(json);
+        bw.close();
+    }
+
+    private void readAncientRecord() {
+        Gson gson = new Gson();
+        try {
+            Reader reader = new FileReader(getApplicationContext().getCacheDir()+"/"+filename);
+            record = gson.fromJson(reader,int.class);
+        /*if (gson.fromJson(reader,ScoresList.class) != null){
+            scoresSaved = gson.fromJson(reader,ScoresList.class);
+        }
+        if (scoresSaved == null){
+            scoresSaved = new ScoresList();
+        }*/
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
