@@ -64,7 +64,7 @@
         android:layout_width="278dp"
         android:layout_height="56dp"
         android:layout_marginTop="5dp"
-        android:text="Et clique un maximum de foi sur l'oeuf"
+        android:text="Et clique un maximum de fois sur l'oeuf"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/b_retour"

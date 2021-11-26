@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/c_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -84,10 +86,10 @@
         android:layout_marginTop="102dp"
         android:layout_marginEnd="93dp"
         android:layout_marginBottom="47dp"
-        android:visibility="invisible"
         android:text="@string/r_sultat"
         android:textAlignment="center"
         android:textSize="30sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/t_clicks"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,8 +1,13 @@
 package com.example.clikergame;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.media.AsyncPlayer;
@@ -11,6 +16,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -30,8 +36,13 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     //initialisation des objets
+    private ConstraintLayout layout;
     TextView t_time,t_restant,t_clicks,t_result,t_record;
     ImageButton b_click;
+    private ObjectAnimator objectAnimatorY;
+    private ObjectAnimator objectAnimatorAlpha;
+    private ObjectAnimator objectAnimatorScaleY;
+    private ObjectAnimator objectAnimatorsScaleX;
     private ImageView i_pokeball;
     public final String filename="scores.xml";
     Button b_start;
@@ -67,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         this.mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.poke_chill);
         b_start.setEnabled(true);
         b_click.setEnabled(false);
-
+        layout = findViewById(R.id.c_layout);
         mediaPlayer.start();
 
         //redirection page des infos
@@ -218,7 +230,72 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    //annimation
 
+        b_click.setOnTouchListener(new View.OnTouchListener() {
+        private TextView plus;
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    plus = new TextView(getApplicationContext());
+                    plus.setText(" +1 ");
+                    plus.setX((float) (motionEvent.getX() + ((layout.getWidth() - b_click.getWidth()) / 2 ) ));
+                    plus.setY(motionEvent.getY()+10);
+                    plus.bringToFront();
+                    layout.addView(plus);
+                    String msg = String.valueOf("X : " + motionEvent.getX() + "      Y : " + motionEvent.getY());
+                    Log.e("Activity", msg);
+                    oneAnimation(plus);
+                }
+                return false;
+            }
+            public void oneAnimation(TextView plus) {
+                AnimatorSet plus1 = new AnimatorSet();
+
+                plus1.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        layout.removeView(plus);
+                        Log.e("Suppresion","plus de plus");
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+
+                objectAnimatorY= ObjectAnimator.ofFloat(plus, "y", -50);
+                objectAnimatorY.setDuration(1000);
+                objectAnimatorY.setStartDelay(200);
+
+                objectAnimatorAlpha=ObjectAnimator.ofFloat(plus, "alpha", 10, 0);
+                objectAnimatorAlpha.setDuration(500);
+                objectAnimatorAlpha.setStartDelay(200);
+
+                objectAnimatorsScaleX=ObjectAnimator.ofFloat(plus, "scaleX", 1, 0);
+                objectAnimatorsScaleX.setDuration(500);
+                objectAnimatorsScaleX.setStartDelay(500);
+
+                objectAnimatorScaleY=ObjectAnimator.ofFloat(plus, "scaleY", 1, 0);
+                objectAnimatorScaleY.setDuration(500);
+                objectAnimatorScaleY.setStartDelay(500);
+
+                plus1.play(objectAnimatorY).with(objectAnimatorAlpha).with(objectAnimatorsScaleX).with(objectAnimatorScaleY);
+                plus1.start();
+
+            }
+        });
 
     }
 
