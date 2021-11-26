@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         b_click.setEnabled(false);
         layout = findViewById(R.id.c_layout);
         mediaPlayer.start();
+        mediaPlayer.setLooping(true);
 
         //redirection page des infos
         i_pokeball.setOnClickListener(new View.OnClickListener() {
@@ -240,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     plus = new TextView(getApplicationContext());
                     plus.setText(" +1 ");
                     plus.setX((float) (motionEvent.getX() + ((layout.getWidth() - b_click.getWidth()) / 2 ) ));
-                    plus.setY(motionEvent.getY()+10);
+                    plus.setY(motionEvent.getY()+b_click.getY());
                     plus.bringToFront();
                     layout.addView(plus);
                     String msg = String.valueOf("X : " + motionEvent.getX() + "      Y : " + motionEvent.getY());
@@ -306,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onPause() {
         super.onPause();
-        mediaPlayer.stop();
+        mediaPlayer.pause();
     }
 
     //stockage local
