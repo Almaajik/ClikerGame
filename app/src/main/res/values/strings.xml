@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">ClikerGame</string>
+    <string name="retour">RETOUR</string>
+    <string name="logo_de_l_universit_du_mans">logo de l\'université du mans</string>
+    <string name="time_15">Time : 15</string>
+    <string name="r_alis_0">Réalisé : 0</string>
+    <string name="start">Start</string>
+    <string name="clicks_15">Clicks : 15</string>
+    <string name="r_sultat">Résultat :</string>
+    <string name="record_0">Record : 0</string>
+    <string name="boutton_oeuf_pokemon">boutton oeuf pokemon</string>
+    <string name="pokeball">pokeball</string>
+    <string name="auteur_axel_gueranger">Auteur : Axel GUERANGER</string>
+    <string name="ce_jeu_est_un_clicker">Ce jeu est un clicker</string>
+    <string name="appuis_sur_le_bouton_start">Appuis sur le bouton start</string>
+    <string name="appuis_un_maximum_de_fois_sur_l_oeuf_avant_la_fin_du_timer">Appuis un maximum de fois sur l\'oeuf avant la fin du timer</string>
 </resources>

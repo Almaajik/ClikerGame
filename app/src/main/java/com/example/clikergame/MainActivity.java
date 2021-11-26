@@ -3,6 +3,7 @@ package com.example.clikergame;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.media.AsyncPlayer;
 import android.media.AudioManager;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     //initialisation des objets
     TextView t_time,t_restant,t_clicks,t_result,t_record;
     ImageButton b_click;
+    private ImageView i_pokeball;
     public final String filename="scores.xml";
     Button b_start;
 
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     //nb clicks
     int clicks = 0;
 
-    //nb clicks par niveau
+    //niveau
     int niveau = 1;
 
     //nb clicks necessaire par niveau
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
     //affichage du record
     int record = 0;
+
+
 
     //piece
     int piece = 0;
@@ -78,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         t_clicks = (TextView) findViewById(R.id.t_clicks);
         t_result = (TextView) findViewById(R.id.t_result);
         t_record = (TextView) findViewById(R.id.t_record);
+        this.i_pokeball = (ImageView) findViewById(R.id.i_pokeball);
         t_record.setText("Record : " + record);
         this.mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.poke_chill);
         b_start.setEnabled(true);
@@ -85,7 +91,15 @@ public class MainActivity extends AppCompatActivity {
 
         mediaPlayer.start();
 
-
+        //redirection page des infos
+        i_pokeball.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent otherActivity = new Intent(getApplicationContext(), page_info.class);
+                startActivity(otherActivity);
+                finish();
+            }
+        });
 
         //methode du timer
         timer = new CountDownTimer(14000, 1000) {
@@ -112,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
                     int value = random.nextInt(img_pokemon.length());
                     int resID = img_pokemon.getResourceId(value,0);
-                    //TODO id_pokemon
+                    // id_pokemon
                     id_pokemon= id_pokemon + value ;
                     b_click.setImageResource(resID);
                     b_click.setTag(resID);
@@ -164,6 +178,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        //bouton pour cliquer sur l oeuf
         b_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,6 +192,8 @@ public class MainActivity extends AppCompatActivity {
                 t_clicks.setText("Clicks :" + c_niveau);
                 t_restant.setText("Réalisé: " + clicks);
                 t_clicks.setText("Clicks :" + c_niveau);
+
+                //changement de niveau
                 if (niveau==1){
                     b_click.setImageResource(R.drawable.oeuf1);
                 }
@@ -204,6 +222,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void onResume() {
+        super.onResume();
+        mediaPlayer.start();
+    }
+
+    public void onPause() {
+        super.onPause();
+        mediaPlayer.stop();
+    }
+
+    //stockage local
     private boolean createNewFile() {
         File file = new File(getApplicationContext().getCacheDir(), filename);
         if(!file.exists()) {
@@ -253,5 +282,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
 
 }
