@@ -17,7 +17,7 @@ public class page_info extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_info);
-
+        getSupportActionBar().hide();
 
         this.b_retour = (Button) findViewById(R.id.b_retour);
 
